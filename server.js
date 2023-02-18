@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 const corsOptions = {
-  origin: "https://restaurants-api.up.railway.app",
+  origin: "https://restaurants-db.up.railway.app",
   credentials: true,
   optionSuccessStatus: 200,
 };
