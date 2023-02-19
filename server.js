@@ -13,6 +13,13 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://restaurants-db.up.railway.app"
+  );
+  next();
+});
 
 //Get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
@@ -21,6 +28,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
     const restaurantRatingData = await db.query(
       "select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id;"
     );
+
     res.status(200).json({
       status: "success",
       results: restaurantRatingData.rows.length,
